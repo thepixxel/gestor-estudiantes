@@ -2,7 +2,7 @@
 
 Proyecto desarrollado para la actividad **Actividad Formativa 2 - Desarrollo de una Aplicación Simple en Línea**, de la materia **Programación Orientada a Objetos**, Ingeniería en Desarrollo de Software, UCNL.
 
-> **Nota sobre el lenguaje:** la guía de la actividad menciona Java o PHP como opciones, pero el proyecto fue realizado en **Python** con autorización del profesor de la materia.
+> **Nota sobre el lenguaje:** la guía de la actividad menciona Java o PHP como opciones, pero el proyecto fue realizado en **Python**.
 
 ## ¿Qué hace el proyecto?
 
