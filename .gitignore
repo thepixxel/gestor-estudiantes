@@ -1,0 +1,8 @@
+# Archivos que Python genera automaticamente al ejecutar el programa
+__pycache__/
+*.pyc
+
+# Carpeta donde se guardan los datos de los estudiantes.
+# No se sube al repositorio porque es informacion generada en cada
+# ejecucion local, no parte del codigo del proyecto.
+datos/
