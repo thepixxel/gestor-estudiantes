@@ -1,97 +1,119 @@
 # Mini Gestor de Estudiantes
 
-Proyecto desarrollado para la actividad **Actividad Formativa 2 - Desarrollo de una Aplicación Simple en Línea**, de la materia **Programación Orientada a Objetos**, Ingeniería en Desarrollo de Software, UCNL.
+Proyecto desarrollado para la materia **Programación Orientada a Objetos**, Ingeniería en Desarrollo de Software, UCNL.
 
 > **Nota sobre el lenguaje:** la guía de la actividad menciona Java o PHP como opciones, pero el proyecto fue realizado en **Python** con autorización del profesor de la materia.
 
 ## ¿Qué hace el proyecto?
 
-Es una aplicación de consola muy simple que permite administrar una lista de estudiantes: agregarlos, listarlos, buscarlos por matrícula, actualizar su promedio y eliminarlos. Los datos se guardan en un archivo JSON, así que no se pierden cada vez que se cierra el programa.
+Es una aplicación de consola que permite administrar una lista de estudiantes: agregarlos, listarlos, buscarlos por matrícula, actualizar su promedio y eliminarlos. Los datos se guardan en un archivo JSON para que no se pierdan al cerrar el programa.
 
-El objetivo principal es practicar los conceptos básicos de Programación Orientada a Objetos:
+## Actividades cubiertas
 
-- Declaración de clases y atributos.
-- Constructores (`__init__`).
-- Instanciación de objetos.
-- Implementación y uso de métodos.
+| Actividad | Concepto principal |
+|---|---|
+| Actividad Formativa 2 | Clases, objetos, métodos y constructores |
+| Actividad Formativa 3 | Herencia: subclases `EstudianteBecado` y `EstudianteForaneo` |
 
 ## Estructura del proyecto
 
 ```
 gestor-estudiantes/
 │
-├── estudiante.py            # Clase Estudiante
-├── gestor_estudiantes.py     # Clase GestorEstudiantes
-├── main.py                   # Programa principal (menú e interacción con el usuario)
+├── estudiante.py              # Clase base Estudiante
+├── estudiante_becado.py       # Subclase EstudianteBecado (hereda de Estudiante)
+├── estudiante_foraneo.py      # Subclase EstudianteForaneo (hereda de Estudiante)
+├── gestor_estudiantes.py      # Clase GestorEstudiantes
+├── main.py                    # Programa principal
 ├── .gitignore
 └── README.md
 ```
 
 ## Clases del proyecto
 
-### `Estudiante` (estudiante.py)
+### `Estudiante` (clase base)
 
-Representa a un solo estudiante. Guarda sus datos básicos como atributos y tiene métodos para actualizar el promedio y para convertirse en diccionario (útil para guardar y leer el JSON).
+Representa a un estudiante con sus datos básicos.
 
-**Atributos:**
-- `matricula`
-- `nombre`
-- `carrera`
-- `promedio`
+**Atributos:** `matricula`, `nombre`, `carrera`, `promedio`
 
-**Métodos principales:**
-- `__init__()` – constructor, recibe los datos del estudiante.
-- `actualizar_promedio()` – cambia el promedio, validando que esté entre 0 y 100.
-- `to_dict()` / `from_dict()` – convierten el objeto a diccionario y viceversa.
-- `__str__()` – define cómo se muestra el estudiante al imprimirlo.
+**Métodos:** `__init__()`, `actualizar_promedio()`, `to_dict()`, `from_dict()`, `__str__()`
 
-### `GestorEstudiantes` (gestor_estudiantes.py)
+---
 
-Administra la colección completa de estudiantes. Es la clase encargada de la lógica del sistema (agregar, buscar, eliminar) y de guardar/cargar la información en el archivo JSON.
+### `EstudianteBecado` (hereda de `Estudiante`)
 
-**Métodos principales:**
-- `__init__()` – constructor, recibe la ruta del archivo donde se guardan los datos y carga lo que ya exista.
-- `agregar_estudiante()`
-- `eliminar_estudiante()`
-- `buscar_estudiante()`
-- `actualizar_promedio()`
-- `listar_estudiantes()`
-- `guardar_datos()` / `cargar_datos()` – manejan la persistencia en JSON.
+Extiende la clase base con información sobre la beca del estudiante.
 
-### `main.py`
+**Atributos propios:** `tipo_beca`  
+**Constante de clase:** `PROMEDIO_MINIMO = 80.0`
 
-Es el punto de entrada del programa. Aquí se instancia el objeto `GestorEstudiantes` y se muestra un menú en la terminal para que el usuario pueda probar todos los métodos de las clases.
+**Métodos propios:** `mantiene_beca()` — regresa `True` si el promedio supera el mínimo requerido.
 
-## Cómo ejecutarlo localmente
+---
 
-Se necesita tener **Python 3** instalado (no se requieren librerías externas, solo la librería estándar).
+### `EstudianteForaneo` (hereda de `Estudiante`)
+
+Extiende la clase base con información sobre el origen y alojamiento del estudiante.
+
+**Atributos propios:** `ciudad_origen`, `alojamiento`
+
+**Métodos propios:** `resumen_alojamiento()` — regresa un texto con el lugar de origen y dónde vive.
+
+---
+
+### `GestorEstudiantes`
+
+Administra la colección de estudiantes (de cualquier tipo) y la persistencia en JSON. Al cargar los datos, usa el campo `tipo` de cada registro para saber qué clase instanciar.
+
+## Herencia aplicada
+
+```
+Estudiante  (clase base)
+├── EstudianteBecado
+└── EstudianteForaneo
+```
+
+Las subclases llaman a `super().__init__()` para reutilizar el constructor de `Estudiante`, y sobreescriben `to_dict()`, `from_dict()` y `__str__()` para manejar sus campos adicionales.
+
+## Cómo ejecutarlo
+
+Se necesita **Python 3** instalado. No requiere librerías externas.
 
 ```bash
 python3 main.py
 ```
 
-Al ejecutarlo aparecerá un menú como este:
+Al agregar un estudiante, el programa pregunta el tipo:
 
 ```
---- MINI GESTOR DE ESTUDIANTES ---
-1. Agregar estudiante
-2. Listar estudiantes
-3. Buscar estudiante
-4. Actualizar promedio
-5. Eliminar estudiante
-6. Salir
+¿Que tipo de estudiante quieres agregar?
+  1. Regular
+  2. Becado
+  3. Foraneo
 ```
-
-La primera vez que se agrega un estudiante, el programa crea automáticamente una carpeta `datos/` con un archivo `estudiantes.json` donde se guarda la información.
 
 ## Conceptos de POO aplicados
 
 | Concepto | Dónde se aplica |
 |---|---|
-| Clase y atributos | `Estudiante` y `GestorEstudiantes` |
-| Constructor | `__init__()` en ambas clases |
-| Instanciación de objetos | Se crean objetos `Estudiante` en `main.py` y un objeto `GestorEstudiantes` que los administra |
-| Métodos | Todos los comportamientos del sistema (agregar, buscar, actualizar, eliminar, guardar) |
+| Clase y atributos | `Estudiante`, `EstudianteBecado`, `EstudianteForaneo`, `GestorEstudiantes` |
+| Constructor | `__init__()` en todas las clases; las subclases llaman a `super().__init__()` |
+| Instanciación de objetos | `main.py` instancia el tipo correcto según la elección del usuario |
+| Métodos | Definidos en la clase base y extendidos o sobreescritos en las subclases |
+| Herencia | `EstudianteBecado` y `EstudianteForaneo` heredan de `Estudiante` |
+| Reutilización de código | Las subclases reutilizan atributos y métodos de la clase base sin reescribirlos |
+
+## Rama de desarrollo (Actividad 3)
+
+Los cambios de herencia se subieron en la rama `feature/herencia`:
+
+```bash
+git checkout -b feature/herencia
+git add .
+git commit -m "Agrega herencia: EstudianteBecado y EstudianteForaneo"
+git push -u origin feature/herencia
+```
 
 ## Autor
 

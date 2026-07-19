@@ -37,7 +37,11 @@ class Estudiante:
         en un archivo JSON, ya que JSON no entiende objetos de Python,
         solo entiende estructuras simples como diccionarios y listas.
         """
+        # El campo "tipo" le dice al gestor que clase usar cuando cargue
+        # este registro desde el archivo JSON. Las subclases sobreescriben
+        # este valor con el suyo propio ("becado" o "foraneo").
         return {
+            "tipo": "regular",
             "matricula": self.matricula,
             "nombre": self.nombre,
             "carrera": self.carrera,
